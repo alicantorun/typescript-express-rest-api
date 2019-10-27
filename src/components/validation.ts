@@ -21,15 +21,15 @@ abstract class Validation {
      * @memberof JoiSchema
      */
     constructor() {
-        this.customJoi = Joi.extend((joi: any) => ({
+        this.customJoi = Joi.extend((joi: Joi.Context) => ({
             type: 'objectId',
             base: joi.string(),
             messages: {
                 objectId: this.messageObjectId,
             },
-            validate(value: any, helpers: any): any {
+            validate(value: any, helpers: Joi.Context): any {
                 if (!Types.ObjectId.isValid(value)) {
-                    return { value, errors: helpers.error('objectId') };
+                    return { value: Types.ObjectId(value), errors: helpers.error('objectId') };
                 }
             },
         }));
